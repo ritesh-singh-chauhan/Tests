@@ -1,0 +1,5 @@
+.env
+/Mylog.txt
+*.pyc
+*.log
+__init__.py
