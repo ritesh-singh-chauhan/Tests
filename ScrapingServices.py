@@ -4,18 +4,18 @@ from rq import Queue
 from CentralSql import CentralSql,Source,Domain
 from Test.settings import REDIS_SETTINGS,logging,CUSTOM_CURRENT_TIME 
 
-obj = CentralSql()
 
 class ScrapingServices:
-    
+
     def __init__(self):
-        self.session = obj.connect()
+        centralsqlobj = CentralSql()
+        self.session = centralsqlobj.connect()
     def UsingRedis(self):
         try:
             logging.info(CUSTOM_CURRENT_TIME)
             query = self.session.query(Domain.name, Source.source, Source.statuss)\
-               .join(Source, Source.domain_id == Domain.id)\
-               .filter(Domain.id > 5)
+               .join(Source, Source.domain_id == Domain.id)
+               #.filter(Domain.id == 6)
             rows = query.all()
             redis_conn = Redis(
                 host    =   REDIS_SETTINGS["REDIS_HOST"], 
@@ -28,8 +28,10 @@ class ScrapingServices:
             except Exception as redis_error:
                 logging.error(f"Error while checking Redis connection: {redis_error}")
             q = Queue(connection=redis_conn)
+            print(rows)
             for row in rows:
                 name,source,status= row[0], row[1], row[2]
+                print(name,source,status)
                 if status == 1:
                     processObj=ProcessCrawler()
                     q.enqueue(processObj.feeds, args=(name,source)) 

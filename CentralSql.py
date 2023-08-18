@@ -9,15 +9,16 @@ Base = declarative_base()
 
 class Domain(Base):
 
-    __tablename__ = 'domain'
+    __tablename__   = 'domain'
 
-    id      = Column(Integer, primary_key=True)
-    name    = Column(String)
-    domain  = Column(String)
-    title   = Column(String)
-    description=Column(String)
-    status  = Column(String)
-    fdstatus= Column(String)
+    id              = Column(Integer, primary_key=True)
+    name            = Column(String)
+    domain          = Column(String)
+    title           = Column(String)
+    description     = Column(String)
+    status          = Column(Integer)
+    fdstatus        = Column(Integer)
+
 class Source(Base):
 
     __tablename__ = 'source'
@@ -28,7 +29,7 @@ class Source(Base):
     language  = Column(String)
     country   = Column(String)
     category  = Column(String)
-    statuss   = Column(String)
+    statuss   = Column(Integer)
 
 class CentralSql:
     def __init__(self):
