@@ -13,17 +13,22 @@ class Domain(Base):
 
     id      = Column(Integer, primary_key=True)
     name    = Column(String)
+    domain  = Column(String)
+    title   = Column(String)
+    description=Column(String)
+    status  = Column(String)
     fdstatus= Column(String)
 class Source(Base):
 
     __tablename__ = 'source'
     
     id        = Column(Integer, primary_key=True)
-    source    = Column(String)
-    statuss   = Column(String)
     domain_id = Column(Integer, ForeignKey('domain.id'))
-
-
+    source    = Column(String)
+    language  = Column(String)
+    country   = Column(String)
+    category  = Column(String)
+    statuss   = Column(String)
 
 class CentralSql:
     def __init__(self):
