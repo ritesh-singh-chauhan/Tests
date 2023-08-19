@@ -9,20 +9,20 @@
 from pymongo import MongoClient
 from ProcessCrawler import *
 from Test.items import TestItem,FullDescription
-from CentralSql import CentralSql,Domain,Source
+from Connection import CentralSql,Redisconnection,Domain,Source
 
 d={}
 obj=CentralSql()    
 from Test.settings import REDIS_SETTINGS,logging
-from redis import Redis
+# from redis import Redis
 from rq import Queue
-redis_conn = Redis(
-        host    =   REDIS_SETTINGS["REDIS_HOST"], 
-        port    =   REDIS_SETTINGS["REDIS_PORT"], 
-        db      =   REDIS_SETTINGS["REDIS_DB"]
-    )
-r=Queue(connection=redis_conn)
-
+# redis_conn = Redis(
+#         host    =   REDIS_SETTINGS["REDIS_HOST"], 
+#         port    =   REDIS_SETTINGS["REDIS_PORT"], 
+#         db      =   REDIS_SETTINGS["REDIS_DB"]
+#     )
+# r=Queue(connection=redis_conn)
+r=Queue(connection=Redisconnection.redisconnection())
 class MongoDBPipeline:
     
     def __init__(self, mongo_uri, mongo_db):

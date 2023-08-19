@@ -43,7 +43,6 @@ BOT_NAME = "Test"
 SPIDER_MODULES = ["Test.spiders","Test.spider_fd"]
 NEWSPIDER_MODULE = "Test.spiders"
 
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "Test (+http://www.yourdomain.com)"
 

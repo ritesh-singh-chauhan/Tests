@@ -1,27 +1,12 @@
 from ProcessCrawler import *
-from CentralSql import CentralSql, Source, Domain
+from Connection import CentralSql, Redisconnection, Source, Domain
 from Test.settings import REDIS_SETTINGS,logging,CUSTOM_CURRENT_TIME 
-from redis import Redis
 from rq import Queue
-
 class ScrapingServices:
 
     def __init__(self):
         centralsqlobj       =   CentralSql()
         self.session        =   centralsqlobj.connect()
-    def redisconnection(self):
-        redis_conn = Redis(
-                host    =   REDIS_SETTINGS["REDIS_HOST"], 
-                port    =   REDIS_SETTINGS["REDIS_PORT"], 
-                db      =   REDIS_SETTINGS["REDIS_DB"]
-            )
-        try:
-            redis_conn.ping()
-            logging.info('Redis connected Successfully')
-            return redis_conn
-        except Exception as redis_error:
-            logging.error(f"Error while checking Redis connection: {redis_error}")
-    
     def UsingRedis(self):
         try:
             logging.info(CUSTOM_CURRENT_TIME)
@@ -30,7 +15,7 @@ class ScrapingServices:
                #.filter(Domain.id == 6)
             rows = query.all()
             
-            q = Queue(connection=self.redisconnection())
+            q = Queue(connection=Redisconnection.redisconnection())
             print(rows)
             for row in rows:
                 name,source,status= row[0], row[1], row[2]
