@@ -10,8 +10,18 @@ from pymongo import MongoClient
 from ProcessCrawler import *
 from Test.items import TestItem,FullDescription
 from CentralSql import CentralSql,Domain,Source
+
 d={}
 obj=CentralSql()    
+from Test.settings import REDIS_SETTINGS,logging
+from redis import Redis
+from rq import Queue
+redis_conn = Redis(
+        host    =   REDIS_SETTINGS["REDIS_HOST"], 
+        port    =   REDIS_SETTINGS["REDIS_PORT"], 
+        db      =   REDIS_SETTINGS["REDIS_DB"]
+    )
+r=Queue(connection=redis_conn)
 
 class MongoDBPipeline:
     
@@ -48,7 +58,7 @@ class MongoDBPipeline:
 
                 if d[spider.name]   ==  1:
                     processObj  =   ProcessCrawler()
-                    processObj.feed_fd(spider_fd,link) 
+                    r.enqueue(processObj.feed_fd(spider_fd,link)) 
                                        
             except Exception as error:
                 logging.error(f"Error Found in SQL Query pipeline:{error}")

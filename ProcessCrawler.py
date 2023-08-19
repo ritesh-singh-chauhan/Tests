@@ -2,11 +2,11 @@ from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from Test.settings import logging
 
-
 class ProcessCrawler:
 
     def __init__(self):
         self.process =  CrawlerProcess(get_project_settings())
+        
     def feeds(self,spidername,sourcelink):
         self.process.crawl(spidername,sourcelink)
         self.process.start()
