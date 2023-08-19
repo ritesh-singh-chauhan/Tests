@@ -9,29 +9,30 @@ Base = declarative_base()
 
 class Domain(Base):
 
-    __tablename__   = 'domain'
+    __tablename__   =   'domain'
 
-    id              = Column(Integer, primary_key=True)
-    name            = Column(String)
-    domain          = Column(String)
-    title           = Column(String)
-    description     = Column(String)
-    status          = Column(Integer)
-    fdstatus        = Column(Integer)
+    id              =   Column(Integer, primary_key=True)
+    name            =   Column(String)
+    domain          =   Column(String)
+    title           =   Column(String)
+    description     =   Column(String)
+    status          =   Column(Integer)
+    fdstatus        =   Column(Integer)
 
 class Source(Base):
 
     __tablename__ = 'source'
     
-    id        = Column(Integer, primary_key=True)
-    domain_id = Column(Integer, ForeignKey('domain.id'))
-    source    = Column(String)
-    language  = Column(String)
-    country   = Column(String)
-    category  = Column(String)
-    statuss   = Column(Integer)
+    id        =     Column(Integer, primary_key=True)
+    domain_id =     Column(Integer, ForeignKey('domain.id'))
+    source    =     Column(String)
+    language  =     Column(String)
+    country   =     Column(String)
+    category  =     Column(String)
+    status   =     Column(Integer)
 
 class Redisconnection:
+
     def redisconnection():
         redis_conn = Redis(
                 host    =   REDIS_SETTINGS["REDIS_HOST"], 
@@ -44,18 +45,19 @@ class Redisconnection:
             return redis_conn
         except Exception as redis_error:
             logging.error(f"Error while checking Redis connection: {redis_error}")
+
 class CentralSql:
     def __init__(self):
-        self.connection = None
-        self.engine     = None
-        self.Session    = None
-        self.session    = None
+        self.connection =   None
+        self.engine     =   None
+        self.Session    =   None
+        self.session    =   None
 
     def connect(self):
         try:
 
-            self.engine  = create_engine(self.get_database_url())
-            self.Session = sessionmaker(bind=self.engine)
+            self.engine     =   create_engine(self.get_database_url())
+            self.Session    =   sessionmaker(bind=self.engine)
             logging.info("MySQL is connected")
             return self.Session()
         
