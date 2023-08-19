@@ -36,7 +36,7 @@ class ScrapingServices:
         finally:
             self.session.close()
         
-obj_scraping=ScrapingServices()
+obj_scraping    =   ScrapingServices()
 obj_scraping.UsingRedis()
 
 # import os

@@ -29,7 +29,7 @@ class Source(Base):
     language  =     Column(String)
     country   =     Column(String)
     category  =     Column(String)
-    status   =     Column(Integer)
+    status    =     Column(Integer)
 
 class Redisconnection:
 
