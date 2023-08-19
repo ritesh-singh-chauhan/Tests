@@ -6,8 +6,8 @@ from rq.job import Job
 class ScrapingServices:
 
     def __init__(self):
-        centralsqlobj       =   CentralSql()
-        self.session        =   centralsqlobj.connect()
+        centralsql_obj       =   CentralSql()
+        self.session        =   centralsql_obj.connect()
         
     def UsingRedis(self):
         try:

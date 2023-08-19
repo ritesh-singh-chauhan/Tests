@@ -13,9 +13,9 @@ from Connection import CentralSql,Redisconnection,Domain,Source
 from Test.settings import REDIS_SETTINGS,logging
 from rq import Queue
 
-d   =   {}
-obj =   CentralSql()    
-r   =   Queue(connection    =   Redisconnection.redisconnection())
+d       =   {}
+sql_obj =   CentralSql()    
+r       =   Queue(connection    =   Redisconnection.redisconnection())
 class MongoDBPipeline:
     
     def __init__(self, mongo_uri, mongo_db):
@@ -41,7 +41,7 @@ class MongoDBPipeline:
             try:
 
                 if spider.name not in d.keys():
-                    session     =    obj.connect()    
+                    session     =   sql_obj.connect()    
                     query       =   session.query(Domain.fdstatus).join(Source, Source.domain_id == Domain.id).filter( Domain.name == spider.name )
     
                     fdstatus    =   query.all()
