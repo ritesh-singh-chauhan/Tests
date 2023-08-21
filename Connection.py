@@ -11,25 +11,25 @@ class Domain(Base):
 
     __tablename__   =   'domain'
 
-    id              =   Column(Integer, primary_key=True)
-    name            =   Column(String)
-    domain          =   Column(String)
-    title           =   Column(String)
-    description     =   Column(String)
-    status          =   Column(Integer)
-    fdstatus        =   Column(Integer)
+    id              =   Column("id", Integer, primary_key=True)
+    name            =   Column("name", String)
+    domain          =   Column("domain", String)
+    title           =   Column("title", String)
+    description     =   Column("description", String)
+    status          =   Column("status", Integer)
+    fdstatus        =   Column("fdstatus", Integer)
 
 class Source(Base):
 
     __tablename__ = 'source'
     
-    id        =     Column(Integer, primary_key=True)
-    domain_id =     Column(Integer, ForeignKey('domain.id'))
-    source    =     Column(String)
-    language  =     Column(String)
-    country   =     Column(String)
-    category  =     Column(String)
-    status    =     Column(Integer)
+    id        =     Column("id", Integer, primary_key=True)
+    domain_id =     Column("domain_id", Integer, ForeignKey('domain.id'))
+    source    =     Column("source", String)
+    language  =     Column("language", String)
+    country   =     Column("country", String)
+    category  =     Column("category", String)
+    status    =     Column("status", Integer)
 
 class Redisconnection:
 
