@@ -3,7 +3,7 @@ import hashlib
 from w3lib.html import remove_tags
 from Test.spiders.Central import Central
 from Test.items import TestItem
-from Test.settings import logging, CUSTOM_CURRENT_TIME
+from Test.settings import logger, CUSTOM_CURRENT_TIME
 class FranceAmerica(Central):
 
 
@@ -13,12 +13,12 @@ class FranceAmerica(Central):
 
         try: 
             if response.status !=200:
-                logging.error(f"response.status: {response.status}, Current Time: {CUSTOM_CURRENT_TIME}")            
+                logger.error(f"response.status: {response.status}, Current Time: {CUSTOM_CURRENT_TIME}")            
             else:
+                logger.info("Step 6 Recieved response from the Engine Parsing started")
                 item=TestItem()
                 response.selector.remove_namespaces()
                 for data in response.xpath("//item"):
-                    logging.info("Step 6 Recieved response from the Engine Parsing started")
                     try:
                         item['title'] = data.xpath("title/text()").get()
                     except:
@@ -44,8 +44,9 @@ class FranceAmerica(Central):
                         item['pubDate']     = None
                 
                     if item['title'] != None and item['link'] != None and item['pubDate'] != None: 
-                        logging.info("Step 7 Sendings item to the engine then ITEM_PIPELINE")
+                        logger.info("Step 7 Sendings item to the engine then ITEM_PIPELINE")
+                        
                         yield item
 
         except Exception as e:
-            logging.error(str(e))
+            logger.error(str(e))

@@ -7,7 +7,15 @@ import datetime
 CUSTOM_CURRENT_TIME = datetime.datetime.now()
 
 load_dotenv('.env')
-logging.basicConfig(filename = getenv("LOGPATH"), level = logging.INFO)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(getenv("LOG_LEVEL"))
+
+formatter = logging.Formatter(getenv("LOG_FORMAT"))
+
+file_handler = logging.FileHandler(getenv("LOG_PATH"))
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
 
 DB_SETTINGS = {
     "DATABASE"  :   getenv("DATABASE","SpiderData"),

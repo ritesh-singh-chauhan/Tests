@@ -1,6 +1,6 @@
 from ProcessCrawler import *
 from Connection import CentralSql, Redisconnection, Source, Domain
-from Test.settings import REDIS_SETTINGS,logging,CUSTOM_CURRENT_TIME 
+from Test.settings import REDIS_SETTINGS,logger,CUSTOM_CURRENT_TIME 
 from rq import Queue
 from rq.job import Job 
 class ScrapingServices:
@@ -11,7 +11,7 @@ class ScrapingServices:
         
     def UsingRedis(self):
         try:
-            logging.info(CUSTOM_CURRENT_TIME)
+            logger.info(CUSTOM_CURRENT_TIME)
             query   =   self.session.query(Domain.name, Source.source, Source.status)\
                .join(Source, Source.domain_id   ==  Domain.id)
                #.filter(Domain.id == 6)
@@ -22,7 +22,7 @@ class ScrapingServices:
             for row in rows:
                 count=count+1
                 name,source,status= row[0], row[1], row[2]
-                logging.info(name,source,status)
+                logger.info(f"{name}, {source}, {status}")
                 if status   ==  1:
                     processObj=ProcessCrawler()
                     job_name    =   str(count)+name
@@ -31,7 +31,7 @@ class ScrapingServices:
                     job.meta['job_name'] = 'my_updated_job_name'
                     job.save()
         except Exception as error:
-            logging.error(f"Error found in ScrapingServices{error}")
+            logger.error(f"Error found in ScrapingServices{error}")
 
         finally:
             self.session.close()

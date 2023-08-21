@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, relationship
-from Test.settings import DB_SETTINGS, logging
+from Test.settings import DB_SETTINGS, logger
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import declarative_base
 from Test.settings import REDIS_SETTINGS
@@ -41,10 +41,10 @@ class Redisconnection:
             )
         try:
             redis_conn.ping()
-            logging.info('Redis connected Successfully')
+            logger.info('Redis connected Successfully')
             return redis_conn
         except Exception as redis_error:
-            logging.error(f"Error while checking Redis connection: {redis_error}")
+            logger.error(f"Error while checking Redis connection: {redis_error}")
 
 class CentralSql:
     def __init__(self):
@@ -58,12 +58,12 @@ class CentralSql:
 
             self.engine     =   create_engine(self.get_database_url())
             self.Session    =   sessionmaker(bind=self.engine)
-            logging.info("MySQL is connected")
+            logger.info("MySQL is connected")
             return self.Session()
         
         except Exception as e:
 
-            logging.error("Error while connecting to MySQLAlchemy:", str(e))
+            logger.error("Error while connecting to MySQLAlchemy:", str(e))
 
     def get_database_url(self):
         return f"mysql+mysqlconnector://{DB_SETTINGS['USER']}:{DB_SETTINGS['PASSWORD']}@{DB_SETTINGS['HOST']}:{DB_SETTINGS['PORT']}/{DB_SETTINGS['DATABASE']}"

@@ -2,10 +2,16 @@ from w3lib.html import remove_tags
 import html
 from Test.items import TestItem
 from  Test.spiders.Central import Central
+from Test.settings import logger
 import hashlib
+
 class Nikkansports(Central):
+
     name="nikkansports"
+
     def parse(self,response):
+
+        logger.info("Step 6 Recieved response from the Engine Parsing started")
         response.selector.remove_namespaces()
         item=TestItem()
         for data in response.css("entry"):
@@ -31,4 +37,6 @@ class Nikkansports(Central):
                 item['pubDate']=data.css('entry>published::text').get()
             except:
                 item['pubDate']=''
+            logger.info("Step 7 Sendings item to the engine then ITEM_PIPELINE")
+            
             yield item

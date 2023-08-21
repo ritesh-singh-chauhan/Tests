@@ -1,11 +1,17 @@
 from w3lib.html import remove_tags
 import html
 from Test.items import TestItem
+from Test.settings import logger
 from  Test.spiders.Central import Central
 import hashlib
+
 class Aajtak(Central):
+
     name="aajtak"
+
     def parse(self,response):
+
+        logger.info("Step 6 Recieved response from the Engine Parsing started")
         item=TestItem()
         for data in response.css("item"):
             try:
@@ -28,4 +34,6 @@ class Aajtak(Central):
                 item['pubDate']=data.css('item>pubDate::text').get()
             except:
                 item['pubDate']=''
+            logger.info("Step 7 Sendings item to the engine then ITEM_PIPELINE")
+            
             yield item

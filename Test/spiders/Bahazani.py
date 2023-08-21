@@ -3,9 +3,15 @@ import hashlib
 from w3lib.html import remove_tags
 from Test.spiders.Central import Central
 from Test.items import TestItem
+from Test.settings import logger
+
 class Bahazani(Central):
+
     name="bahazani"
+
     def parse(self,response):
+
+        logger.info("Step 6 Recieved response from the Engine Parsing started")
         item=TestItem()
         response.selector.remove_namespaces()
         for data in response.xpath("//item"):
@@ -31,4 +37,6 @@ class Bahazani(Central):
                 item['pubDate']=data.xpath("pubDate/text()").get()
             except:
                 item['pubDate']=''
+            logger.info("Step 7 Sendings item to the engine then ITEM_PIPELINE")
+            
             yield item
