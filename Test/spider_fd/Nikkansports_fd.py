@@ -12,7 +12,6 @@ class Nikkansports_fd(Centralfd):
         item=FullDescription()
         response.selector.remove_namespaces()
         st=remove_tags("".join(response.xpath("//section[@id='articleMain']/div/p//text()").getall()))
-        print(st)
         link=self.url
         result=hashlib.md5(link.encode())
         try:

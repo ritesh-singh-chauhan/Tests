@@ -3,7 +3,7 @@ import html
 from Test.items import TestItem
 from  Test.spiders.Central import Central
 import hashlib
-class Aajtak(Central):
+class Nikkansports(Central):
     name="nikkansports"
     def parse(self,response):
         response.selector.remove_namespaces()

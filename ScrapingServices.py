@@ -22,7 +22,7 @@ class ScrapingServices:
             for row in rows:
                 count=count+1
                 name,source,status= row[0], row[1], row[2]
-                print(name,source,status)
+                logging.info(name,source,status)
                 if status   ==  1:
                     processObj=ProcessCrawler()
                     job_name    =   str(count)+name

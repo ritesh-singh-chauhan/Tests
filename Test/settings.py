@@ -6,8 +6,8 @@ import datetime
 # Set a custom value for current time
 CUSTOM_CURRENT_TIME = datetime.datetime.now()
 
-logging.basicConfig(filename="./Mylog.log",level=logging.INFO)
 load_dotenv('.env')
+logging.basicConfig(filename = getenv("LOGPATH"), level = logging.INFO)
 
 DB_SETTINGS = {
     "DATABASE"  :   getenv("DATABASE","SpiderData"),

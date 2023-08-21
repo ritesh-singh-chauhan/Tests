@@ -12,7 +12,6 @@ class Aajtak_fd(Centralfd):
         item=FullDescription()
         response.selector.remove_namespaces()
         st=remove_tags("".join(response.xpath("//div[@class='content-area']//div/*[self::p or self::h2]/text()").getall()))
-        print(st)
         link=self.url
         result=hashlib.md5(link.encode())
         item['link_hash']=result.hexdigest()
