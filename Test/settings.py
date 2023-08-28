@@ -17,6 +17,12 @@ file_handler = logging.FileHandler(getenv("LOG_PATH"))
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
+REDIS_SETTINGS = {
+    "REDIS_HOST"    :   getenv("REDIS_HOST","localhost"),
+    "REDIS_PORT"    :   int(getenv("REDIS_PORT",6379)),
+    "REDIS_DB"      :   int(getenv("REDIS_DB",1))
+}
+
 DB_SETTINGS = {
     "DATABASE"  :   getenv("DATABASE","SpiderData"),
     "HOST"      :   getenv("HOST","127.0.0.1"),
@@ -25,15 +31,11 @@ DB_SETTINGS = {
     "PORT"      :   int(getenv("PORT",3306))
 }
 
-REDIS_SETTINGS = {
-    "REDIS_HOST"    :   getenv("REDIS_HOST","localhost"),
-    "REDIS_PORT"    :   int(getenv("REDIS_PORT",6379)),
-    "REDIS_DB"      :   int(getenv("REDIS_DB",1))
-}
 
 ITEM_PIPELINES = {
     'Test.pipelines.MongoDBPipeline': 999, 
 }
+
 MONGO_URI       =   getenv("MONGO_URI")
 MONGO_DATABASE  =   getenv("MONGO_DATABASE","Trial") 
 

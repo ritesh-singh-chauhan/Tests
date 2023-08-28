@@ -56,12 +56,12 @@ class MongoDBPipeline:
             except Exception as error:
                 logger.error(f"Error Found in SQL Query pipeline:{error}")
             
-            self.collection.insert_one(dict(item))
+            self.db[spider.name].insert_one(dict(item))
 
         if isinstance(item,FullDescription):
             try:
                 logger.info("Step-8 The Engine sends processed items to Item Pipelines, then send processed Requests to the Scheduler and asks for possible next Requests to crawl.")
-                self.collection.update_one({"link_hash":item['link_hash']},{"$set":{"Full_Description":item['fulldescription']}})
+                self.db[spider.name[:-3]].update_one({"link_hash":item['link_hash']},{"$set":{"Full_Description":item['fulldescription']}})
             except Exception as e:
                 logger.info("Unable to update")
         #return item 
