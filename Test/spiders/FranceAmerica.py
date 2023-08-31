@@ -2,7 +2,7 @@ import html
 import hashlib
 from w3lib.html import remove_tags
 from Test.spiders.Central import Central
-from Test.items import TestItem
+from Test.items import Feed
 from Test.settings import logger, CUSTOM_CURRENT_TIME
 class FranceAmerica(Central):
 
@@ -16,7 +16,7 @@ class FranceAmerica(Central):
                 logger.error(f"response.status: {response.status}, Current Time: {CUSTOM_CURRENT_TIME}")            
             else:
                 logger.info("Step 6 Recieved response from the Engine Parsing started")
-                item=TestItem()
+                item=Feed()
                 response.selector.remove_namespaces()
                 for data in response.xpath("//item"):
                     try:

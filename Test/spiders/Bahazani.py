@@ -2,7 +2,7 @@ import html
 import hashlib
 from w3lib.html import remove_tags
 from Test.spiders.Central import Central
-from Test.items import TestItem
+from Test.items import Feed
 from Test.settings import logger
 
 class Bahazani(Central):
@@ -12,31 +12,36 @@ class Bahazani(Central):
     def parse(self,response):
 
         logger.info("Step 6 Recieved response from the Engine Parsing started")
-        item=TestItem()
+        item    =   Feed()
         response.selector.remove_namespaces()
         for data in response.xpath("//item"):
             try:
-                item['title']=data.xpath("title/text()").get()
+                item['title']   =   data.xpath("title/text()").get()
             except:
-                item['title']=''
+                item['title']   =   ''
+
             try:
                 link=data.xpath("link/text()").get()
-                item['link']=link
+                item['link']    =   link
+
             except:
-                item['link']=''
+                item['link']    =   ''
+
             try:
-                result=hashlib.md5(link.encode())
-                item['link_hash']=result.hexdigest()
+                result          =   hashlib.md5(link.encode())
+                item['link_hash']   =  result.hexdigest()
             except:
-                item['link_hash']=''
+                item['link_hash']   =  ''
+
             try:
-                item['description']=html.unescape(remove_tags(data.xpath("description/text()").get()))
+                item['description'] =   html.unescape(remove_tags(data.xpath("description/text()").get()))
             except:
-                item['description']=''
+                item['description'] =   ''
+
             try:
-                item['pubDate']=data.xpath("pubDate/text()").get()
+                item['pubDate']     =   data.xpath("pubDate/text()").get()
             except:
-                item['pubDate']=''
+                item['pubDate']     =   ''
             logger.info("Step 7 Sendings item to the engine then ITEM_PIPELINE")
             
             yield item

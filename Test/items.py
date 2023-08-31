@@ -6,7 +6,7 @@
 import scrapy
 
 
-class TestItem(scrapy.Item):
+class Feed(scrapy.Item):
     title       =   scrapy.Field(type=str)
     link        =   scrapy.Field(type=str)
     link_hash   =   scrapy.Field(type=str)

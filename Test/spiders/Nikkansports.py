@@ -1,6 +1,6 @@
 from w3lib.html import remove_tags
 import html
-from Test.items import TestItem
+from Test.items import Feed
 from  Test.spiders.Central import Central
 from Test.settings import logger
 import hashlib
@@ -13,15 +13,15 @@ class Nikkansports(Central):
 
         logger.info("Step 6 Recieved response from the Engine Parsing started")
         response.selector.remove_namespaces()
-        item=TestItem()
+        item    =   Feed()
         for data in response.css("entry"):
             try:
-                item['title']=html.unescape(data.css('entry>title::text').get())
+                item['title']   =   html.unescape(data.css('entry>title::text').get())
             except:
-                item['title']=''
-            link=data.xpath("link/@href").get()
+                item['title']   =   ''
+            link    =   data.xpath("link/@href").get()
             try:
-                item['link']=link
+                item['link']    =   link
             except:
                 item['link']=''
             result = hashlib.md5(link.encode())

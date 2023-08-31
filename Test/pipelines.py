@@ -8,14 +8,16 @@
 
 from pymongo import MongoClient
 from ProcessCrawler import *
-from Test.items import TestItem,FullDescription
+from Test.items import Feed,FullDescription
 from Connection import CentralSql,Redisconnection,Domain,Source
 from Test.settings import REDIS_SETTINGS,logger
 from rq import Queue
 
-d       =   {}
-sql_obj =   CentralSql()    
-r       =   Queue(connection    =   Redisconnection.redisconnection())
+dict_status       =   dict()
+sql_obj           =   CentralSql()    
+redis_queue       =   Queue(connection    =   Redisconnection.redisconnection())
+
+
 class MongoDBPipeline:
     
     def __init__(self, mongo_uri, mongo_db):
@@ -29,34 +31,38 @@ class MongoDBPipeline:
             mongo_uri = crawler.settings.get('MONGO_URI'),
             mongo_db  = crawler.settings.get('MONGO_DATABASE')
         )
-    def open_spider(self, spider):
-        pass
+    # def open_spider(self, spider):
+    #     pass
 
     def process_item(self, item, spider):
         
-        if isinstance(item,TestItem):
-            logger.info("Step-8 The Engine sends processed items to Item Pipelines, then send processed Requests to the Scheduler and asks for possible next Requests to crawl.")
-            link        =   item['link']
-            spider_fd   =   spider.name+"_fd"   
-            try:
+        if isinstance(item,Feed):
+            if item['title']    ==  '' or item["link"]  ==  '' or item['description']   ==  '' or item['pubDate']   ==  '':
+                pass
+            else:
+                logger.info("Step-8 The Engine sends processed items to Item Pipelines, then send processed Requests to the Scheduler and asks for possible next Requests to crawl.")
+                link        =   item['link']
+                spider_fd   =   spider.name+"_fd"   
+                try:
 
-                if spider.name not in d.keys():
-                    session     =   sql_obj.connect()    
-                    query       =   session.query(Domain.fdstatus).join(Source, Source.domain_id == Domain.id).filter( Domain.name == spider.name )
+                    if spider.name not in dict_status.keys():
+                        session     =   sql_obj.connect()    
+                        query       =   session.query(Domain.fdstatus).join(Source, Source.domain_id == Domain.id).filter( Domain.name == spider.name )
     
-                    fdstatus    =   query.all()
-                    d[spider.name]= fdstatus[0][0]
-                    session.close()
-                    logger.info("Status of the FD",fdstatus)
+                        fdstatus    =   query.all()
+                        dict_status[spider.name]= fdstatus[0][0]
+                        session.close()
+                        logger.info("Status of the FD",fdstatus)
 
-                if d[spider.name]   ==  1:
-                    process_obj  =   ProcessCrawler()
-                    r.enqueue(process_obj.feed_fd(spider_fd,link)) 
+                    if dict_status[spider.name]   ==  1:
+                        processcrawler_obj  =   ProcessCrawler()
+                        redis_queue.enqueue(processcrawler_obj.feed_fd(spider_fd,link)) 
                                        
-            except Exception as error:
-                logger.error(f"Error Found in SQL Query pipeline:{error}")
+                except Exception as error:
+                    logger.error(f"Error Found in SQL Query pipeline:{error}")
+
             
-            self.db[spider.name].insert_one(dict(item))
+                self.db[spider.name].insert_one(dict(item))
 
         if isinstance(item,FullDescription):
             try:
