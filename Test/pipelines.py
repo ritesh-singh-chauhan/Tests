@@ -70,6 +70,8 @@ class MongoDBPipeline:
                 self.db[spider.name[:-3]].update_one({"link_hash":item['link_hash']},{"$set":{"Full_Description":item['fulldescription']}})
             except Exception as e:
                 logger.info("Unable to update")
+        else:
+            pass
         #return item 
         
     def close_spider(self, spider):

@@ -16,3 +16,9 @@ class Feed(scrapy.Item):
 class FullDescription(scrapy.Item):
     link_hash       =   scrapy.Field(type=str)
     fulldescription =   scrapy.Field(type=str)
+
+class AutomateItem(scrapy.Item):
+
+    domain      =   scrapy.Field()
+    title       =   scrapy.Field()
+    description =   scrapy.Field()
