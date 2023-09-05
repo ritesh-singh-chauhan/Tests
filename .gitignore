@@ -3,3 +3,4 @@
 *.pyc
 *.log
 __init__.py
+link.csv
