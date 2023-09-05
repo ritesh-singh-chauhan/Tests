@@ -32,9 +32,9 @@ DB_SETTINGS = {
 }
 
 
-# ITEM_PIPELINES = {
-#     'Test.pipelines.MongoDBPipeline': 999, 
-# }
+ITEM_PIPELINES = {
+    'Test.pipelines.MongoDBPipeline': 999, 
+}
 
 MONGO_URI       =   getenv("MONGO_URI")
 MONGO_DATABASE  =   getenv("MONGO_DATABASE","Trial") 
