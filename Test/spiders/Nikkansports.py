@@ -18,25 +18,25 @@ class Nikkansports(Central):
             try:
                 item['title']   =   html.unescape(data.css('entry>title::text').get())
             except:
-                item['title']   =   ''
+                item['title']   =   None 
             link    =   data.xpath("link/@href").get()
             try:
                 item['link']    =   link
             except:
-                item['link']=''
+                item['link']    =   None 
             result = hashlib.md5(link.encode())
             try:
-                item['link_hash']=result.hexdigest()
+                item['link_hash']   =  result.hexdigest()
             except:
-                item['link_hash']=''
+                item['link_hash']   =   None 
             try:
-                item['description']=html.unescape(remove_tags(data.css('entry>summary::text').get()))
+                item['description'] =   html.unescape(remove_tags(data.css('entry>summary::text').get()))
             except:
-                item['description']=''
+                item['description'] =   None 
             try:
-                item['pubDate']=data.css('entry>published::text').get()
+                item['pubDate']     =   data.css('entry>published::text').get()
             except:
-                item['pubDate']=''
+                item['pubDate']     =   None
             logger.info("Step 7 Sendings item to the engine then ITEM_PIPELINE")
             
             yield item

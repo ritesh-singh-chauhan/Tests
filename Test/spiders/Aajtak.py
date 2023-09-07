@@ -18,7 +18,7 @@ class Aajtak(Central):
             try:
                 item['title']   =   html.unescape(data.css('item>title::text').get())
             except:
-                item['title']   =   ''
+                item['title']   =   None
 
             try:
                 link            =   data.css('item>link::text').get()
@@ -26,18 +26,18 @@ class Aajtak(Central):
                 result          =   hashlib.md5(link.encode())
                 item['link_hash']=result.hexdigest()
             except:
-                item['title']       =   ''
-                item['link_hash']   =   ''
+                item['title']       =   None
+                item['link_hash']   =   None
 
             try:
                 item['description'] =   html.unescape(remove_tags(data.css('item>description::text').get()))
             except:
-                item['description'] =   ''
+                item['description'] =   None
 
             try:
                 item['pubDate']     =   data.css('item>pubDate::text').get()
             except:
-                item['pubDate']     =   ''
+                item['pubDate']     =   None
             logger.info("Step 7 Sendings item to the engine then ITEM_PIPELINE")
             
             yield item

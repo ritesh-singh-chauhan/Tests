@@ -25,13 +25,11 @@ class Automate(scrapy.Spider):
             
     def parse(self,response):
         response.selector.remove_namespaces()
-        print("Hello...   ....  .....  ....  ...")
-        print("Hello...   ....  .....  ....  ...")
 
         item           =   AutomateItem()
         
         item['domain']      =   response.url
         item['title']       =   response.xpath("//title/text()").get()
         item['description'] =   response.xpath('//meta[@name="description"]/@content').get()
-        print(item,"sdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd1")
+        
         yield item

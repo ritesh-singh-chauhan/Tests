@@ -8,7 +8,7 @@ from Test.settings import logger
 class FranceAmerica_fd(Centralfd):
 
 
-    name="franceamerica_fd"
+    name    =   "franceamerica_fd"
 
     def parse(self,response):
 

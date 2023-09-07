@@ -23,7 +23,7 @@ class MongoDBPipeline:
     def __init__(self, mongo_uri, mongo_db):
         self.client     =   MongoClient(mongo_uri)
         self.db         =   self.client[mongo_db]
-        self.collection =   self.db["france_america"]
+        #self.collection =   self.db["france_america"]
         
     @classmethod
     def from_crawler(cls, crawler):
@@ -37,7 +37,7 @@ class MongoDBPipeline:
     def process_item(self, item, spider):
         
         if isinstance(item,Feed):
-            if item['title']    ==  '' or item["link"]  ==  '' or item['description']   ==  '' or item['pubDate']   ==  '':
+            if item['title']    ==  None or item["link"]  ==  None or item['description']   ==  None or item['pubDate']   ==  None:
                 pass
             else:
                 logger.info("Step-8 The Engine sends processed items to Item Pipelines, then send processed Requests to the Scheduler and asks for possible next Requests to crawl.")
@@ -71,8 +71,7 @@ class MongoDBPipeline:
             except Exception as e:
                 logger.info("Unable to update")
         else:
-            pass
-        #return item 
+            pass 
         
     def close_spider(self, spider):
         self.client.close()

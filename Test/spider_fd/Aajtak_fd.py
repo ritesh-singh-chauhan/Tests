@@ -13,13 +13,13 @@ class Aajtak_fd(Centralfd):
     def parse(self,response):
 
         logger.info("Step 6 Recieved response from the Engine Parsing started")
-        item=FullDescription()
+        item    =   FullDescription()
         response.selector.remove_namespaces()
-        st=remove_tags("".join(response.xpath("//div[@class='content-area']//div/*[self::p or self::h2]/text()").getall()))
-        link=self.url
-        result=hashlib.md5(link.encode())
-        item['link_hash']=result.hexdigest()
-        item['fulldescription']=html.unescape(st)
+        st      =   remove_tags("".join(response.xpath("//div[@class='content-area']//div/*[self::p or self::h2]/text()").getall()))
+        link    =   self.url
+        result  =   hashlib.md5(link.encode())
+        item['link_hash']       =   result.hexdigest()
+        item['fulldescription'] =   html.unescape(st)
         logger.info("Step 7 Sendings item to the engine then ITEM_PIPELINE")
 
         yield item

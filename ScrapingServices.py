@@ -15,7 +15,7 @@ class ScrapingServices:
             logger.info(CUSTOM_CURRENT_TIME)
             sql_query   =   self.session.query(Domain.name, Source.source, Source.status)\
                .join(Source, Source.domain_id   ==  Domain.id)
-               #.filter(Domain.id == 6)
+
             rows        =   sql_query.all()
             redis_conn  =   Redisconnection.redisconnection()
             redis_queue =   Queue(connection=redis_conn)
@@ -29,7 +29,7 @@ class ScrapingServices:
                     job_name    =   str(job_count)+name
                     job         =   redis_queue.enqueue(processObj.feeds, args=(name,source),job_name=job_name)
                     job         =   Job.fetch(job.id, connection=redis_conn)
-                    job.meta['job_name'] = 'my_updated_job_name'
+                    # job.meta['job_name'] = 'my_updated_job_name'
                     job.save()
         except Exception as error:
             logger.error(f"Error found in ScrapingServices{error}")
@@ -39,7 +39,6 @@ class ScrapingServices:
         
 obj_scraping    =   ScrapingServices()
 obj_scraping.UsingRedis()
-
 # import os
 # import sys
 # from pathlib import Path
